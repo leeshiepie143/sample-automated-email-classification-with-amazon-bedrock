@@ -5,14 +5,6 @@ SPDX-License-Identifier: MIT-0
 
 ## Automated Email Classification with Amazon Bedrock
 
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
-
 ## Overview
 
 This project demonstrates a proof of concept workflow for automating email sentiment anaylsis using a large language model.
@@ -140,3 +132,11 @@ cdk destroy
 
 If you see an S3 permissions error in the QuickSight DataSource ensure that you have given QuickSight permission to access the output S3 bucket.
 https://docs.aws.amazon.com/quicksight/latest/user/troubleshoot-connect-S3.html
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
