@@ -18,6 +18,7 @@ const glueCrawlerName = app.node.tryGetContext('glueCrawlerName');
 const quicksightDataSetName = app.node.tryGetContext('quicksightDataSetName');
 const quicksightUserArn = app.node.tryGetContext('quicksightUserArn');
 const destroyData = app.node.tryGetContext('destroyData');
+const llmModelId = app.node.tryGetContext('llmModelId');
 
 Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 new AutomatedClassificationCdkStack(app, 'AutomatedClassificationCdkStack', {
@@ -41,6 +42,7 @@ new AutomatedClassificationCdkStack(app, 'AutomatedClassificationCdkStack', {
   ...(quicksightDataSetName && { quicksightDataSetName }),
   ...(quicksightUserArn && { quicksightUserArn }),
   ...(destroyData && { destroyData }),
+  ...(llmModelId && { llmModelId }),
 });
 
 
