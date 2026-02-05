@@ -123,6 +123,7 @@ export class AutomatedClassificationCdkStack extends cdk.Stack {
     });
 
     logsKey.grantEncryptDecrypt(new iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`));
+    logsKey.grantEncryptDecrypt(new iam.ServicePrincipal('glue.amazonaws.com'));
 
     // IAM Role for Glue Crawler
     const glueCrawlerRole = new iam.Role(this, 'GlueCrawlerRole', {
@@ -177,7 +178,7 @@ export class AutomatedClassificationCdkStack extends cdk.Stack {
             new iam.PolicyStatement({
               actions: ["logs:AssociateKmsKey"],
               resources: [
-                `${logsKey.keyArn}`
+                `arn:aws:logs:${this.region}:${this.account}:log-group:/aws-glue/crawlers-role/*`
               ]
             }),
           ]
@@ -288,7 +289,7 @@ export class AutomatedClassificationCdkStack extends cdk.Stack {
           Arguments: {
             Bucket: emailOutputBucketName,
             Key: '{% $uuid() %}',
-            Body: '{% $string($states.input.response) %}'
+            Body: '{% $states.input.response %}'
           },
           Output: '{% $states.input %}',
           Next: 'GetGlueCrawler'
