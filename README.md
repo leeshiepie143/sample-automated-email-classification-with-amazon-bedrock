@@ -90,6 +90,7 @@ The project provides runtime configuration parameters that can be customized dur
 | quicksightDataSetName | email-triage-dataset | QuickSight Dataset Name |
 | quicksightUserArn | arn:aws:quicksight:{region}:{account}:user/default/admin | QuickSight User ARN |
 | destroyData | false | Whether to destroy S3 data on stack deletion |
+| llmModelId | amazon.nova-pro-v1:0 | Bedrock foundation model ID for email analysis |
 
 ### Deployment Command Example
 
@@ -99,7 +100,8 @@ cdk deploy \
   -c quicksightUserArn="arn:aws:quicksight:us-east-1:111122223333:user/default/your-user" \
   -c emailBucketName="amzn-s3-demo-source-bucket" \
   -c emailOutputBucketName="amzn-s3-demo-destination-bucket" \
-  -c destroyData=true
+  -c destroyData=true \
+  -c llmModelId="amazon.nova-pro-v1:0"
 ```
 
 ### Data Considerations
