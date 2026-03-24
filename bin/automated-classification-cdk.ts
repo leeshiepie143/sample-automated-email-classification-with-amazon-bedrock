@@ -19,18 +19,13 @@ const quicksightDataSetName = app.node.tryGetContext('quicksightDataSetName');
 const quicksightUserArn = app.node.tryGetContext('quicksightUserArn');
 const destroyData = app.node.tryGetContext('destroyData');
 const llmModelId = app.node.tryGetContext('llmModelId');
+const targetRegion = app.node.tryGetContext('region') || 'us-east-1';
 
 Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))
 new AutomatedClassificationCdkStack(app, 'AutomatedClassificationCdkStack', {
   stackName: `AutomatedClassificationCdkStack`,
 	description: `(tag:pipeline)`,
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
-
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'us-east-1' },
+   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: targetRegion },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
    

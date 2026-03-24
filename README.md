@@ -9,6 +9,18 @@ SPDX-License-Identifier: MIT-0
 
 This project demonstrates a proof of concept workflow for automating email sentiment anaylsis using a large language model.
 
+## ⚠️ DISCLAIMER
+
+**USE AT YOUR OWN RISK:** This code is provided as-is for educational and demonstration purposes only. Amazon Web Services (AWS) is not responsible for any damages, data loss, costs, or issues that may arise from using this application. Users are solely responsible for:
+
+- Testing in safe, non-production environments
+- Backing up important data before use
+- Understanding AWS costs and potential charges
+- Ensuring proper security and access controls
+- Any consequences of file operations or AWS resource management
+
+By using this application, you acknowledge and accept full responsibility for all outcomes.
+
 ## Architecture Overview
 
 The Automated Classification system processes uploaded emails through an automated workflow that analyzes sentiment and categorizes emails for triage. The architecture leverages serverless AWS services to create a scalable, event-driven pipeline.
@@ -73,6 +85,9 @@ You need to have AWS CDK installed and your account bootstrapped.
 https://docs.aws.amazon.com/cdk/v2/guide/getting-started.html
 https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping-env.html
 
+The LLM that you select, must be available in your target region, note some models require you to use an inference profile.
+https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html
+
 ## Usage Instructions
 
 Install all dependencies used in the project with: `npm install`
@@ -91,6 +106,7 @@ The project provides runtime configuration parameters that can be customized dur
 | quicksightUserArn | arn:aws:quicksight:{region}:{account}:user/default/admin | QuickSight User ARN |
 | destroyData | false | Whether to destroy S3 data on stack deletion |
 | llmModelId | amazon.nova-pro-v1:0 | Bedrock foundation model ID for email analysis |
+| region | eu-west-2 | Target deployment region |
 
 ### Deployment Command Example
 
@@ -101,7 +117,8 @@ cdk deploy \
   -c emailBucketName="amzn-s3-demo-source-bucket" \
   -c emailOutputBucketName="amzn-s3-demo-destination-bucket" \
   -c destroyData=true \
-  -c llmModelId="amazon.nova-pro-v1:0"
+  -c llmModelId="amazon.nova-pro-v1:0" \
+  -c region="eu-west-2"
 ```
 
 ### Data Considerations
@@ -134,6 +151,16 @@ cdk destroy
 
 If you see an S3 permissions error in the QuickSight DataSource ensure that you have given QuickSight permission to access the output S3 bucket.
 https://docs.aws.amazon.com/quicksight/latest/user/troubleshoot-connect-S3.html
+
+### CDK not bootstrapped in deployment region
+
+You must bootstrap CDK in your target deployment region before running cdk deploy.
+https://docs.aws.amazon.com/cdk/v2/guide/ref-cli-cmd-bootstrap.html
+
+### Bedrock Model Invoke error
+
+If you see an error stating that "Invocation of model ID with on-demand throughput isn’t supported. Retry your request with the ID or ARN of an inference profile that contains this model" Update the model ID parameter to include a valid inference profile.
+https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html
 
 ## Security
 
